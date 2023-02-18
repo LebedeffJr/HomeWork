@@ -8,6 +8,7 @@ class Student:
         self.grades = {}
 
     def rate_lecturer(self, lecturer, course, grade):
+        ''' Оценивание Лекторов '''
         if isinstance(lecturer, Lecturer) and course in lecturer.courses_attached and course in self.courses_in_progress:
             if course in lecturer.grades:
                 lecturer.grades[course] += [grade]
@@ -17,6 +18,7 @@ class Student:
             return 'Ошибка'
 
     def average_grade(self):
+        ''' Вычисление среднего значения оценок у студентов'''
         sum_grades = 0
         for avrg in self.grades.values():
             for gr in avrg:
@@ -25,12 +27,14 @@ class Student:
         return round(m, 1)
 
     def __lt__(self, other):
+        '''Сравнение'''
         if not isinstance(other, Student):
             print('Not a Student!')
             return
         return self.average_grade() < other.average_grade()
 
     def __str__(self):
+        '''Вывод в нужном виде'''
         return f'Имя: {self.name}\nФамилия: {self.surname}\nСредняя оценка за домашние задания: {self.average_grade()}\
             \nКурсы в процессе изучения: {", ".join(self.courses_in_progress)}\nЗавершенные курсы: \
             {", ".join(self.finished_courses)}'
@@ -51,13 +55,16 @@ class Lecturer(Mentor):
         self.grades = {}
 
     def average_grade(self):
+        ''' Вычисление среднего значения оценок у лекторов'''
         sum_grades = 0
         for avrg in self.grades.values():
             for gr in avrg:
                 sum_grades += gr
         m = sum_grades / len(avrg)
         return round(m, 1)
+
     def __lt__(self, other):
+        '''Сравнение'''
         if not isinstance(other, Mentor):
             print('Not a Mentor!')
             return
@@ -69,6 +76,7 @@ class Lecturer(Mentor):
 
 class Reviewer(Mentor):
     def rate_hw(self, student, course, grade):
+        '''Оценивание студентов'''
         if isinstance(student, Student) and course in self.courses_attached and course in student.courses_in_progress:
             if course in student.grades:
                 student.grades[course] += [grade]
@@ -80,13 +88,14 @@ class Reviewer(Mentor):
     def __str__(self):
         return f'Имя: {self.name}\nФамилия: {self.surname}'
 
+# Назначение должностей
 Tony = Lecturer('Tony', 'Stark')
 Deadpool = Lecturer('Wade', 'Wilson')
 Barry = Student('Barry','Alen','man')
 Peter = Student('Peter', 'Parker', 'man')
 Banner = Reviewer('Bruce', 'Banner')
 Logan = Reviewer('James', 'Howlett')
-
+#Распредиление знаний
 Logan.courses_attached += ['Python']
 Deadpool.courses_attached += ['Python']
 Banner.courses_attached += ['Python']
@@ -95,21 +104,21 @@ Barry.finished_courses += ['Git']
 Barry.courses_in_progress += ['Python']
 Peter.finished_courses += ['Git']
 Peter.courses_in_progress += ['Python']
-
+#Оценивание студентов
 Banner.rate_hw(Barry, 'Python', 10)
 Banner.rate_hw(Barry, 'Python', 8)
 Banner.rate_hw(Barry, 'Python', 9)
 Logan.rate_hw(Peter,'Python', 10)
 Logan.rate_hw(Peter,'Python', 5)
 Logan.rate_hw(Peter,'Python', 7)
-
+#Оценивание лекторов
 Peter.rate_lecturer(Deadpool, 'Python', 10)
 Peter.rate_lecturer(Deadpool, 'Python', 10)
 Peter.rate_lecturer(Deadpool, 'Python', 10)
 Barry.rate_lecturer(Tony, 'Python', 10)
 Barry.rate_lecturer(Tony, 'Python', 7)
 Barry.rate_lecturer(Tony, 'Python', 9)
-
+#Вывод и сравнение
 print(Peter)
 print(Tony)
 print(Logan)
@@ -120,6 +129,7 @@ student_list = [Peter, Barry]
 lecturer_list = [Tony, Deadpool]
 
 def mid_stud_grade(st_list, course):
+    '''Средний балл всех студентов'''
     all_grades = []
     for student in st_list:
         if isinstance(student, Student) and course in student.courses_in_progress:
@@ -134,6 +144,7 @@ def mid_stud_grade(st_list, course):
 mid_stud_grade(student_list, 'Python')
 
 def mid_lr_grade(lr_list, course):
+    '''Средний балл всех лекторов'''
     all_grades = []
     for lecturer in lr_list:
         if isinstance(lecturer, Lecturer) and course in lecturer.courses_attached:
