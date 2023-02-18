@@ -16,6 +16,19 @@ class Student:
         else:
             return 'Ошибка'
 
+    def average_grade(self):
+        sum_grades = 0
+        for avrg in self.grades.values():
+            for gr in avrg:
+                sum_grades += gr
+        m = sum_grades / len(avrg)
+        return m
+
+    def __str__(self):
+        return f'Имя: {self.name}\nФамилия: {self.surname}\nСредняя оценка за домашние задания: {self.average_grade()}\
+            \nКурсы в процессе изучения: {", ".join(self.courses_in_progress)}\nЗавершенные курсы: \
+            {", ".join(self.finished_courses)}'
+
 
 class Mentor:
     def __init__(self, name, surname):
@@ -30,11 +43,15 @@ class Lecturer(Mentor):
         self.grades = {}
 
     def average_grade(self):
+        sum_grades = 0
         for avrg in self.grades.values():
-            all_grades = None
-            all_grades += avrg
-        all_grades / len(self.grades.values)
-        return
+            for gr in avrg:
+                sum_grades += gr
+        m = sum_grades / len(avrg)
+        return m
+
+    def __str__(self):
+        return f'Имя: {self.name}\nФамилия: {self.surname}\nСредняя оценка за лекции: {self.average_grade()}'
 
 
 class Reviewer(Mentor):
@@ -47,24 +64,39 @@ class Reviewer(Mentor):
         else:
             return 'Ошибка'
 
-Tony = Lecturer('Tony', 'Stark')
-Barry = Student('Barry','Alen','man')
-Banner = Reviewer('Bruce', 'Banner')
+    def __str__(self):
+        return f'Имя: {self.name}\nФамилия: {self.surname}'
 
+Tony = Lecturer('Tony', 'Stark')
+Deadpool = Lecturer('Wade', 'Wilson')
+Barry = Student('Barry','Alen','man')
+Peter = Student('Peter', 'Parker', 'man')
+Banner = Reviewer('Bruce', 'Banner')
+Logan = Reviewer('James', 'Howlett')
+
+Logan.courses_attached += ['Python']
+Deadpool.courses_attached += ['Python']
 Banner.courses_attached += ['Python']
 Tony.courses_attached += ['Python']
 Barry.finished_courses += ['Git']
 Barry.courses_in_progress += ['Python']
+Peter.finished_courses += ['Git']
+Peter.courses_in_progress += ['Python']
 
 Banner.rate_hw(Barry, 'Python', 10)
 Banner.rate_hw(Barry, 'Python', 8)
 Banner.rate_hw(Barry, 'Python', 9)
+Logan.rate_hw(Peter,'Python', 10)
+Logan.rate_hw(Peter,'Python', 5)
+Logan.rate_hw(Peter,'Python', 7)
+
+Peter.rate_lecturer(Deadpool, 'Python', 10)
+Peter.rate_lecturer(Deadpool, 'Python', 10)
+Peter.rate_lecturer(Deadpool, 'Python', 10)
 
 Barry.rate_lecturer(Tony, 'Python', 10)
 Barry.rate_lecturer(Tony, 'Python', 7)
 Barry.rate_lecturer(Tony, 'Python', 9)
 
 
-
-print(Barry.grades)
-print(Tony.grades)
+print(Deadpool)
