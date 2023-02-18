@@ -22,7 +22,7 @@ class Student:
             for gr in avrg:
                 sum_grades += gr
         m = sum_grades / len(avrg)
-        return m
+        return round(m, 1)
 
     def __lt__(self, other):
         if not isinstance(other, Student):
@@ -56,7 +56,7 @@ class Lecturer(Mentor):
             for gr in avrg:
                 sum_grades += gr
         m = sum_grades / len(avrg)
-        return m
+        return round(m, 1)
     def __lt__(self, other):
         if not isinstance(other, Mentor):
             print('Not a Mentor!')
@@ -110,5 +110,39 @@ Barry.rate_lecturer(Tony, 'Python', 10)
 Barry.rate_lecturer(Tony, 'Python', 7)
 Barry.rate_lecturer(Tony, 'Python', 9)
 
-
+print(Peter)
+print(Tony)
+print(Logan)
+print(Tony < Deadpool)
 print(Barry < Peter)
+
+student_list = [Peter, Barry]
+lecturer_list = [Tony, Deadpool]
+
+def mid_stud_grade(st_list, course):
+    all_grades = []
+    for student in st_list:
+        if isinstance(student, Student) and course in student.courses_in_progress:
+            for crs, grades in student.grades.items():
+                for score in grades:
+                    all_grades.append(score)
+        else:
+            print('Ошибка!')
+
+    print(round(sum(all_grades) / len(all_grades), 1))
+
+mid_stud_grade(student_list, 'Python')
+
+def mid_lr_grade(lr_list, course):
+    all_grades = []
+    for lecturer in lr_list:
+        if isinstance(lecturer, Lecturer) and course in lecturer.courses_attached:
+            for crs, grades in lecturer.grades.items():
+                for score in grades:
+                    all_grades.append(score)
+        else:
+            print('Ошибка!')
+
+    print(round(sum(all_grades) / len(all_grades), 1))
+
+mid_lr_grade(lecturer_list, 'Python')
