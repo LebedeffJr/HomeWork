@@ -24,6 +24,12 @@ class Student:
         m = sum_grades / len(avrg)
         return m
 
+    def __lt__(self, other):
+        if not isinstance(other, Student):
+            print('Not a Student!')
+            return
+        return self.average_grade() < other.average_grade()
+
     def __str__(self):
         return f'Имя: {self.name}\nФамилия: {self.surname}\nСредняя оценка за домашние задания: {self.average_grade()}\
             \nКурсы в процессе изучения: {", ".join(self.courses_in_progress)}\nЗавершенные курсы: \
@@ -35,6 +41,8 @@ class Mentor:
         self.name = name
         self.surname = surname
         self.courses_attached = []
+
+
 
 
 class Lecturer(Mentor):
@@ -49,6 +57,11 @@ class Lecturer(Mentor):
                 sum_grades += gr
         m = sum_grades / len(avrg)
         return m
+    def __lt__(self, other):
+        if not isinstance(other, Mentor):
+            print('Not a Mentor!')
+            return
+        return self.average_grade() < other.average_grade()
 
     def __str__(self):
         return f'Имя: {self.name}\nФамилия: {self.surname}\nСредняя оценка за лекции: {self.average_grade()}'
@@ -93,10 +106,9 @@ Logan.rate_hw(Peter,'Python', 7)
 Peter.rate_lecturer(Deadpool, 'Python', 10)
 Peter.rate_lecturer(Deadpool, 'Python', 10)
 Peter.rate_lecturer(Deadpool, 'Python', 10)
-
 Barry.rate_lecturer(Tony, 'Python', 10)
 Barry.rate_lecturer(Tony, 'Python', 7)
 Barry.rate_lecturer(Tony, 'Python', 9)
 
 
-print(Deadpool)
+print(Barry < Peter)
